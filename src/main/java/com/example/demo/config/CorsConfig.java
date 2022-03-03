@@ -14,55 +14,55 @@ public class CorsConfig implements WebMvcConfigurer {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/auth/register")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET", "POST","Content-Type","X-Requested-With",
 						"accept"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/auth/login")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET", "POST", "Content-Type","X-Requested-With",
 						"accept"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/user/**")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/comentario")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET","POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/patinete")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/alquiler/**")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/calcular-alquiler")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/subida")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/comprobar-email")
-				.allowedOrigins("http://localhost:4200")
+				.allowedOrigins("https://musebackend.herokuapp.com/")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
