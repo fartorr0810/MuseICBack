@@ -9,7 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,7 +16,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepo;
 
 @SpringBootApplication
-public class ApiPropia extends SpringBootServletInitializer{
+public class ApiPropia {
     @Autowired 
     private PasswordEncoder passwordEncoder;
 	@Autowired 

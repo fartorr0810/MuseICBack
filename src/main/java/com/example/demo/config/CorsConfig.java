@@ -11,60 +11,58 @@ public class CorsConfig implements WebMvcConfigurer {
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
-			String RUTAEXTERNA="https://fartorr0810.github.io/";
-			String RUTALOCAL="http://localhost:4200/";
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/auth/register")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET", "POST","Content-Type","X-Requested-With",
 						"accept"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/auth/login")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET", "POST", "Content-Type","X-Requested-With",
 						"accept"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/user/**")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/comentario")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET","POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/patinete")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/alquiler/**")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("GET", "POST", "PUT", "DELETE","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/calcular-alquiler")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/subida")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")
 				.exposedHeaders("Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
 				registry.addMapping("/comprobar-email")
-				.allowedOrigins(RUTAEXTERNA)
+				.allowedOrigins("http://localhost:4200")
 				.allowedHeaders("POST","Content-Type","X-Requested-With",
 						"accept","Authorization"
 						,"Origin","Access-Control-Request-Method","Access-Control-Request-Headers")

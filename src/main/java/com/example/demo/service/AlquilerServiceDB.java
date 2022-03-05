@@ -149,6 +149,19 @@ public class AlquilerServiceDB {
 			}
 		return lista;
 	}
+	public AlquilerDTO conversorAlquilerAdtoIndivudual(Alquiler alq) {
+		AlquilerDTO alquiler=new AlquilerDTO();
+		alquiler.setCodigoDescuento(alq.getCodigo());
+		alquiler.setEntregado(alq.getEntregado());
+		alquiler.setHoraentrega(alq.getHoraentrega());
+		alquiler.setHorarecogida(alq.getHorarecogida());
+		alquiler.setPreciototal(alq.getPreciototal());
+		Patinete p=this.serviciopatinete.findById(alq.getPatinete().getIdpatinete());
+		alquiler.setModelo(p.getModelo());
+		alquiler.setIdalquiler(alq.getIdalquiler());
+		alquiler.setHorasalquiler(alq.getHorasalquiler());
+		return alquiler;
+	}
 	/**
 	 * Busca por id de alquiler en la base de datos
 	 * @param id id del alquiler que se busca

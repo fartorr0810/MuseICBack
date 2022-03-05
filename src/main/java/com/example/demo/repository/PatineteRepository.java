@@ -16,6 +16,6 @@ public interface PatineteRepository extends JpaRepository<Patinete, Integer>{
 	 * Consulta personalizada que devuelve una lista con los patinetes que sean disponibles
 	 * @return devuelve una lista de patinetes.
 	 */
-	@Query("select p from Patinete p where p.disponible = true")
+	@Query(value="SELECT * FROM alquiler.descuento des WHERE des.codigo = :codigo",nativeQuery=true)
 	List<Patinete> findPatinetesDisponibles();
 }

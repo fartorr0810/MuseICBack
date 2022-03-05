@@ -24,6 +24,7 @@ import com.example.demo.exception.AlquilerNoEncontradoException;
 import com.example.demo.exception.ApiError;
 import com.example.demo.exception.ContenidoComentarioVacioException;
 import com.example.demo.exception.ErrorAlquilerException;
+import com.example.demo.exception.FacturaNoEncontrada;
 import com.example.demo.exception.KmHoraException;
 import com.example.demo.exception.ModeloVacioException;
 import com.example.demo.exception.PatineteNoDisponibleException;
@@ -33,6 +34,7 @@ import com.example.demo.exception.SinPermisoException;
 import com.example.demo.model.Alquiler;
 import com.example.demo.model.AlquilerDTO;
 import com.example.demo.model.Comentario;
+import com.example.demo.model.Factura;
 import com.example.demo.model.FileMessage;
 import com.example.demo.model.Patinete;
 import com.example.demo.model.PatineteDTO;
@@ -41,6 +43,7 @@ import com.example.demo.repository.UserRepo;
 import com.example.demo.service.AlquilerServiceDB;
 import com.example.demo.service.ComentarioServiceDB;
 import com.example.demo.service.CorreoService;
+import com.example.demo.service.FacturaServiceDB;
 import com.example.demo.service.FileServiceS;
 import com.example.demo.service.PatineteServiceDB;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,6 +64,8 @@ public class UserController {
     private FileServiceS servicioarchivos;
     @Autowired
     private CorreoService serviciocorreo;
+    @Autowired
+    private FacturaServiceDB serviciofacturas;
     /**
      * Nos devuelve la id del usuario al hacer un get del usuario
      * @return la id del usuario
@@ -253,8 +258,63 @@ public class UserController {
     	}
     	return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-    //TODO alquiler/{id}/patinete - OPERACIONES CRUD
-    
+    /**
+     * Crea una factura de un alquiler
+     * @param id del alquiler
+     * @param f factura
+     * @return devuelve la factura
+     */
+    @PostMapping("/alquiler/{id}/factura")
+    public ResponseEntity<Factura> crearFactura(@PathVariable Integer id,@RequestBody Factura f){
+    	this.serviciofacturas.addFactura(f);
+    	return ResponseEntity.status(HttpStatus.CREATED).body(f);
+    }
+    /**
+     * Devuelve una lista de facturas que tenga un alquiler 
+     * @param idalquiler id del alquiler
+     * @return devuelve lista de alquileres
+     */
+    @GetMapping("/alquiler/{idalquiler}/factura")
+    public ResponseEntity<List<Factura>> todasLasFacturas(@PathVariable Integer idalquiler){
+    	List<Factura> listafacturas=this.serviciofacturas.buscarTodasFacturas(idalquiler);
+    	return ResponseEntity.status(HttpStatus.OK).body(listafacturas);
+    }
+    /**
+     * Edita la factura especifica de un alquiler 
+     * @param idalquiler de alquiler
+     * @param idfactura de id factura
+     * @param f de factura
+     * @return devuelve la factura
+     */
+    @PutMapping("alquiler/{idalquiler}/factura/{idfactura}")
+    public ResponseEntity<Factura> editarFactura(@PathVariable Integer idalquiler,@PathVariable Integer idfactura,
+    		@RequestBody Factura f){
+    	Factura nuevafactura=this.serviciofacturas.findById(idfactura);
+    	Alquiler alq=this.servicioAlquiler.findById(idalquiler);
+    	if (nuevafactura==null || alq==null) {
+    		throw new FacturaNoEncontrada();
+    	}else {
+    		nuevafactura.setPrecio(f.getPrecio());
+    		this.serviciofacturas.edit(nuevafactura);
+    		return ResponseEntity.status(HttpStatus.ACCEPTED).body(nuevafactura);
+    	}
+    }
+    /**
+     * Elimina una factura
+     * @param idalquiler del alquiler
+     * @param idfactura de factura 
+     */
+    @DeleteMapping("/alquiler/{idalquiler}/factura/{idfactura}")
+    public ResponseEntity borrarFactura(@PathVariable Integer idalquiler,@PathVariable Integer idfactura) {
+    	Factura nuevafactura=this.serviciofacturas.findById(idfactura);
+    	Alquiler alq=this.servicioAlquiler.findById(idalquiler);
+    	if (nuevafactura==null || alq==null) {
+    		throw new FacturaNoEncontrada();
+    	}else {
+    		this.serviciofacturas.deleteFacturaById(nuevafactura.getIdfactura());
+    		return ResponseEntity.status(HttpStatus.ACCEPTED).body(nuevafactura);
+    	}
+    }
     /**
      * Metodo que devuelve el patinete del alquiler que se le indica. 
      * @param id del alquiler
@@ -270,8 +330,6 @@ public class UserController {
     		throw new AlquilerNoEncontradoException();
     	}
     }
- 
-    
     /**
      * Metodo para entregar el patinete
      * @param id del alquiler
@@ -279,13 +337,14 @@ public class UserController {
      */
     @CrossOrigin(origins = "http://localhost:4200/alquiler")
     @PutMapping("/alquiler/{id}")
-    public ResponseEntity<Alquiler> entregarPatinete(@PathVariable Integer id){
+    public ResponseEntity<AlquilerDTO> entregarPatinete(@PathVariable Integer id){
     	Alquiler alquiler=this.servicioAlquiler.findById(id);
     	if (alquiler==null) {
     		throw new AlquilerNoEncontradoException();
     	}
+    	AlquilerDTO alq=this.servicioAlquiler.conversorAlquilerAdtoIndivudual(alquiler);
     	this.servicioAlquiler.entregarPatinete(id);
-    	return ResponseEntity.status(HttpStatus.OK).body(alquiler);
+    	return ResponseEntity.status(HttpStatus.OK).body(alq);
     }
     /**
      * Metodo para eliminar un alquiler especifico
@@ -294,18 +353,19 @@ public class UserController {
      */
     @CrossOrigin(origins = "http://localhost:4200/alquiler")
     @DeleteMapping("/alquiler/{id}")
-    public ResponseEntity<Alquiler> deleteAlquiler(@PathVariable Integer id){
+    public ResponseEntity<AlquilerDTO> deleteAlquiler(@PathVariable Integer id){
     	Alquiler alquiler=this.servicioAlquiler.findById(id);
     	if (alquiler==null) {
     		throw new AlquilerNoEncontradoException();
     	}
+    	AlquilerDTO alq=this.servicioAlquiler.conversorAlquilerAdtoIndivudual(alquiler);
     	User user=this.userRepo.findById(alquiler.getUser().getId()).orElse(null);
     	if (user!=null) {
     		user.getListaalquiler().remove(alquiler);
     		this.userRepo.save(user);
     		this.servicioAlquiler.eliminarAlquiler(id);
     	}
-    	return ResponseEntity.status(HttpStatus.NO_CONTENT).body(alquiler);
+    	return ResponseEntity.status(HttpStatus.NO_CONTENT).body(alq);
     }
     /**
      * Error en caso de que no se encuentre el alquiler
@@ -320,7 +380,19 @@ public class UserController {
     	apierror.setMensaje(ex.getMessage());
     	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apierror);
     }
-
+    /**
+     * Error en caso que no se encuentre la factura
+     * @param ex excepcion
+     * @return devuelve el api error con los datos de la excepcion
+     */
+    @ExceptionHandler(AlquilerNoEncontradoException.class)
+    public ResponseEntity<ApiError> handleFacturaNoEncontrada(FacturaNoEncontrada ex){
+    	ApiError apierror=new ApiError();
+    	apierror.setEstado(HttpStatus.NOT_FOUND);
+    	apierror.setFecha(LocalDateTime.now());
+    	apierror.setMensaje(ex.getMessage());
+    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apierror);
+    }
     /**
      * Error en caso de el modelo al anadir patinete este vacio
      * @param ex excepcion

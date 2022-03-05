@@ -26,6 +26,19 @@ public class AlquilerDTO {
 		super();
 	}
 	
+	public AlquilerDTO(Integer idalquiler, Integer horasalquiler, LocalDateTime horarecogida, LocalDateTime horaentrega,
+			Double preciototal, String modelo, Boolean entregado, String codigoDescuento) {
+		super();
+		this.idalquiler = idalquiler;
+		this.horasalquiler = horasalquiler;
+		this.horarecogida = horarecogida;
+		this.horaentrega = horaentrega;
+		this.preciototal = preciototal;
+		this.modelo = modelo;
+		this.entregado = entregado;
+		this.codigoDescuento = codigoDescuento;
+	}
+
 	public AlquilerDTO(Integer horasalquiler, LocalDateTime horarecogida, LocalDateTime horaentrega
 			,String codigoDescuento) {
 		super();
